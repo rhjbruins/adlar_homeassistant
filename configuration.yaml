@@ -1,0 +1,5 @@
+modbus: !include adlar_modbus.yaml
+automation: !include adlar_automation.yaml
+
+
+input_select: !include adlar_input.yaml
