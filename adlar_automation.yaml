@@ -1,0 +1,80 @@
+- id: update_heatcurve_selection
+  alias: Update of heatcurve based on modbus selection
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.heating_setting_curve
+    from:
+    to:
+  actions:
+  - data:
+      option: "{% set mapper = {0: 'Off',\n        1: 'H1',\n        2: 'H2',\n        3:
+        'H3',\n        4:  'H4',\n        5:  'H5',\n        6:  'H6',\n        7:
+        \ 'H7',\n       8:  'H8',\n       11: 'L1',\n       12:  'L2',\n       13:
+        \ 'L3',\n       14:  'L4',\n       15:  'L5',\n       16:  'L6',\n       17:
+        \ 'L7',\n       18:  'L8'} %}\n{% set selection = states(\"sensor.heating_setting_curve\")
+        | int %} {{ mapper[selection] if selection in mapper else 'Off' }}\n"
+    target:
+      entity_id: input_select.heating_curve
+    action: input_select.select_option
+- id: update_heatcurve_selection_to_modbus
+  alias: Update of modbus heatcurve based on input selection
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_select.heating_curve
+  conditions: []
+  actions:
+  - action: modbus.write_register
+    data:
+      address: 788
+      slave: 1
+      hub: hub1
+      value: "{% set mapper = {'Off':0,\n        'H1': 1,\n        'H2': 2,\n        'H3':
+        3,\n        'H4': 4,\n        'H5': 5,\n        'H6': 6,\n        'H7': 7
+        ,\n        'H8': 8,\n        'L1': 11,\n        'L2': 12,\n        'L3': 13,\n
+        \       'L4': 14,\n        'L5': 15,\n        'L6': 16,\n        'L7': 17,\n
+        \       'L8': 18} %}\n{% set selection = states(\"input_select.heating_curve\")
+        %} {{ mapper[selection] if selection in mapper else 'Off' }}\n"
+  mode: single
+- id: update_coolcurve_selection
+  alias: Update of coolcurve based on modbus selection
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.cooling_setting_curve
+    from:
+    to:
+  actions:
+  - data:
+      option: "{% set mapper = {0: 'Off',\n        1: 'H1',\n        2: 'H2',\n        3:
+        'H3',\n        4:  'H4',\n        5:  'H5',\n        6:  'H6',\n        7:
+        \ 'H7',\n       8:  'H8',\n       11: 'L1',\n       12:  'L2',\n       13:
+        \ 'L3',\n       14:  'L4',\n       15:  'L5',\n       16:  'L6',\n       17:
+        \ 'L7',\n       18:  'L8'} %}\n{% set selection = states(\"sensor.cooling_setting_curve\")
+        | int %} {{ mapper[selection] if selection in mapper else 'Off' }}\n"
+    target:
+      entity_id: input_select.cooling_curve
+    action: input_select.select_option
+- id: update_coolcurve_selection_to_modbus
+  alias: Update of modbus coolcurve based on input selection
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_select.cooling_curve
+  conditions: []
+  actions:
+  - action: modbus.write_register
+    data:
+      address: 0x0313
+      slave: 1
+      hub: hub1
+      value: "{% set mapper = {'Off':0,\n        'H1': 1,\n        'H2': 2,\n        'H3':
+        3,\n        'H4': 4,\n        'H5': 5,\n        'H6': 6,\n        'H7': 7
+        ,\n        'H8': 8,\n        'L1': 11,\n        'L2': 12,\n        'L3': 13,\n
+        \       'L4': 14,\n        'L5': 15,\n        'L6': 16,\n        'L7': 17,\n
+        \       'L8': 18} %}\n{% set selection = states(\"input_select.cooling_curve\")
+        %} {{ mapper[selection] if selection in mapper else 'Off' }}\n"
+  mode: single
