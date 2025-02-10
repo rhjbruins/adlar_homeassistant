@@ -4,20 +4,6 @@
     port: 4196
 
     sensors:
-      - name: active_power
-        address: 0x0012
-        unit_of_measurement: W
-        input_type: input
-        slave: 200
-        precision: 2
-        data_type: float32
-      - name: total_usage
-        address: 342
-        unit_of_measurement: kWh
-        input_type: input
-        slave: 200
-        precision: 2
-        data_type: float32
       - name:  "Compressor Target Frequency"
         slave: 1
         address: 0x0027
