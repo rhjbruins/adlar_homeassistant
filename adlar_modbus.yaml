@@ -1,0 +1,222 @@
+  - name: hub1
+    type: rtuovertcp
+    host: 192.168.3.21
+    port: 4196
+
+    sensors:
+      - name: active_power
+        address: 0x0012
+        unit_of_measurement: W
+        input_type: input
+        slave: 200
+        precision: 2
+        data_type: float32
+      - name: total_usage
+        address: 342
+        unit_of_measurement: kWh
+        input_type: input
+        slave: 200
+        precision: 2
+        data_type: float32
+      - name:  "Compressor Target Frequency"
+        slave: 1
+        address: 0x0027
+        data_type: int16
+        precision: 0
+        unit_of_measurement: Hz
+      - name:  "Compressor Running Frequency"
+        slave: 1
+        address: 0x0040
+        data_type: int16
+        precision: 0
+        unit_of_measurement: Hz
+      - name:  "Fan Running Speed"
+        slave: 1
+        address: 0x0041
+        data_type: int16
+        precision: 0
+        unit_of_measurement: Hz
+      - name:  "EEV Open Step"
+        slave: 1
+        address: 0x0042
+        data_type: int16
+        precision: 0
+        unit_of_measurement: P
+      - name:  "EVI Valve Open Step"
+        slave: 1
+        address: 0x0043
+        data_type: int16
+        precision: 0
+        unit_of_measurement: P
+      - name:  "AC Input Voltage"
+        slave: 1
+        address: 0x0044
+        data_type: int16
+        precision: 0
+        device_class: voltage
+        unit_of_measurement: V
+      - name:  "AC Input Current"
+        slave: 1
+        address: 0x0045
+        data_type: int16
+        precision: 1
+        device_class: current
+        unit_of_measurement: A
+        scale: 0.1
+      - name:  "Compressor Phase Current"
+        slave: 1
+        address: 0x0046
+        data_type: int16
+        precision: 1
+        device_class: current
+        unit_of_measurement: A
+        scale: 0.1
+      - name:  "Compressor IPM Temp."
+        slave: 1
+        address: 0x0047
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "High Pressure Saturation Temp."
+        slave: 1
+        address: 0x0048
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Low  Pressure Saturation Temp."
+        slave: 1
+        address: 0x0049
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Ambient Temp. T1"
+        slave: 1
+        address: 0x004A
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Outer Coil Temp. T2"
+        slave: 1
+        address: 0x004B
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Inner Coil Temp. T3"
+        slave: 1
+        address: 0x004C
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Suction Temp. T4"
+        slave: 1
+        address: 0x004D
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Exhaust Temp. T5"
+        slave: 1
+        address: 0x004E
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Water Inlet Temp. T6"
+        slave: 1
+        address: 0x004F
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Water Outlet Temp. T7"
+        slave: 1
+        address: 0x0050
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Economizer Inlet Temp. T8"
+        slave: 1
+        address: 0x0051
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Economizer Outlet Temp. T9"
+        slave: 1
+        address: 0x0052
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Plate Heat Exchanger Exhaust Temp."
+        slave: 1
+        address: 0x0055
+        data_type: int16
+        precision: 0
+        unit_of_measurement: °C
+      - name:  "Water Pump Speed PWM"
+        slave: 1
+        address: 0x0057
+        data_type: int16
+        precision: 0
+        unit_of_measurement: Hz
+      - name:  "Water Flow"
+        slave: 1
+        address: 0x0058
+        device_class: volume_flow_rate
+        data_type: int16
+        precision: 0
+        unit_of_measurement: L/min
+      - name: "0x0000_bit_regs"
+        address: 0x0000
+        slave: 1
+        data_type: uint16
+      - name: "0x0001_bit_regs"
+        address: 0x0001
+        slave: 1
+        data_type: uint16
+
+
+      - name: "Heating Setting Curve"
+        slave: 1
+        data_type: int16
+        address: 0x0314
+      - name: "Cooling Setting Curve"
+        address: 0x0313
+        slave: 1
+        data_type: int16
+    climates:
+      - name:  "Temp. Set-Cooling"
+        slave: 1
+        address: 0x004F
+        target_temp_register: 0x0300
+        target_temp_write_registers: true
+        temp_step: 1
+        temperature_unit: °C
+        data_type: int16
+        max_temp: 25
+        min_temp: 7
+      - name:  "Temp. Set-Heating"
+        slave: 1
+        address: 0x004F
+        data_type: int16
+        max_temp: 60
+        min_temp: 20
+        target_temp_register: 0x0301
+        target_temp_write_registers: true
+        temp_step: 1
+        temperature_unit: °C
+      - name: "Unit Mode"
+        slave: 1
+        address: 0x004F
+        target_temp_register: 0x0301
+        data_type: int16
+        hvac_onoff_register: 0x0305
+        write_registers: true
+        hvac_mode_register:
+          address: 0x0304
+          values:
+            state_heat: 1
+            state_cool: 0
+        fan_mode_register:
+          address: 0x0307
+          values:
+            state_fan_low: 2
+            state_fan_high: 1
+            state_fan_medium: 0
+            
